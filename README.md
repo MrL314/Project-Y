@@ -18,6 +18,8 @@ Last updated: September 8, 2021
 
 1. After completing the **Setup** step, run `build.bat`.
 
+2. The built ROM will appear in the `Output` folder. It will be called `VER_0.sfc`.
+
 ---
 ## Running raw python files
 
