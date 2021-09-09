@@ -8,7 +8,6 @@
 
 # standard imports
 import traceback
-import time
 import threading
 
 # local imports
@@ -74,15 +73,15 @@ class Line(object):
 			self.set_file_attr(self._file)             # set file name and directory
 
 
-		_start = time.clock()
+		_start = util.get_time()
 		# whitespace cleaned, trimmed, and comment-removed line
 		self._cleaned_line = self.clean_line(raw_line.replace(":",";").split(';')[0])
-		self._clean_time = time.clock() - _start
+		self._clean_time = util.get_time() - _start
 
-		_start = time.clock()
+		_start = util.get_time()
 		# line turned into its individual components
 		self._parsed_line = self.parse_line(self._cleaned_line)
-		self._parse_time = time.clock() - _start
+		self._parse_time = util.get_time() - _start
 
 
 

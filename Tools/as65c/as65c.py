@@ -7,7 +7,6 @@
 
 
 import argparse
-import time
 import assembler
 import util
 

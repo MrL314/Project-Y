@@ -10,6 +10,28 @@
 import os.path
 from os import path
 import hashlib
+import time
+import platform
+
+
+PLTFRM = platform.system()
+
+
+
+def get_time():
+
+	'''
+	if PLTFRM == "Windows":
+		return time.clock()
+	elif PLTFRM == "Linux":
+		return time.perf_counter()
+	elif PLTFRM == "Darwin":
+		return time.perf_counter()
+	else:
+		return time.perf_counter()
+	'''
+	return time.perf_counter()
+
 
 
 def flatten_list(L):

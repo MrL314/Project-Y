@@ -93,6 +93,8 @@ def add_hash(file_hash, data_hash): return HELPER.add_hash(file_hash, data_hash)
 
 def get_hash(file_hash): return HELPER.get_hash(file_hash)
 
+def get_time(): return HELPER.get_time()
+
 
 
 

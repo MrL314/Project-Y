@@ -606,11 +606,11 @@ class ASM_FILE(object):
 						if_condition = int(condition)
 					except:
 
-						if condition in ext_vars:
-							if_condition = ext_vars[condition]
+						if condition in self._ext_vars:
+							if_condition = self._ext_vars[condition]
 						else:
 							#if_condition = False
-							raise LineException(L_OBJ.get_line_num(), str(condition) + " not found.\n" + l.get_raw(), l.get_file_name())
+							raise LineException(L_OBJ.get_line_num(), str(condition) + " not found.\n" + L_OBJ.get_raw(), L_OBJ.get_file_name())
 
 					if if_condition == 1: if_condition = True
 					if if_condition == 0: if_condition = False
@@ -692,7 +692,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 	#print(ext_vars)
 
-	ASM_START = time.clock()
+	ASM_START = util.get_time()
 
 	try:
 
@@ -712,7 +712,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		hash_text = ""
 		curr_hash = None
 
-		start = time.clock()
+		start = util.get_time()
 
 		file_updated, curr_hash = HASH_CHECK(filename)
 
@@ -725,7 +725,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		except:
 			force_assemble = True
 
-		#if TIMING_DEBUG: print("\n  hash load time: ", format(time.clock()-start, " 10.5f"))
+		#if TIMING_DEBUG: print("\n  hash load time: ", format(util.get_time()-start, " 10.5f"))
 
 		if not force_assemble:
 			succeeded = True
@@ -733,7 +733,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 			raise EOFError() # this is ONLY so assembly process doesnt run if file is not changed
 
 
-		if TIMING_DEBUG: print("\n  hash load time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("\n  hash load time: ", format(util.get_time()-start, " 10.5f"))
 
 		macros = {}
 
@@ -745,8 +745,8 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 		NV_IND = 0
 
-		start = time.clock()
-		#start2 = time.clock()
+		start = util.get_time()
+		#start2 = util.get_time()
 		#lnum = 1
 		LINES = []
 		#ended = False
@@ -788,12 +788,12 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 			lnum += 1
 			#if (lnum+1) % 1000 == 0:
-			#	if TIMING_DEBUG: print("  init --- time: ", format(time.clock()-start2, " 10.5f"))
-			#	start2 = time.clock()
+			#	if TIMING_DEBUG: print("  init --- time: ", format(util.get_time()-start2, " 10.5f"))
+			#	start2 = util.get_time()
 
 		
 
-		if TIMING_DEBUG: print("  init time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  init time: ", format(util.get_time()-start, " 10.5f"))
 
 		FILE_NUM += 1
 
@@ -825,7 +825,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 		"""
 		######################## REPLACE LATER ########################
-		start = time.clock()
+		start = util.get_time()
 		# step 0: handle IF statements
 
 
@@ -886,13 +886,13 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 					if IF_LAYER == 0 or if_condition:
 						LINES.append(l)
 
-		#if TIMING_DEBUG: print("  IFs time: ", format(time.clock()-start, " 10.5f"))
+		#if TIMING_DEBUG: print("  IFs time: ", format(util.get_time()-start, " 10.5f"))
 		"""
 
 
 		"""
 		######################## RELACE LATER ########################
-		start = time.clock()
+		start = util.get_time()
 		# step 1: include files
 
 
@@ -1046,7 +1046,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		'''
 
 		"""
-		if TIMING_DEBUG: print("  include time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  include time: ", format(util.get_time()-start, " 10.5f"))
 
 		total_clean = 0
 		total_parse = 0
@@ -1067,7 +1067,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 
 
-		start = time.clock()
+		start = util.get_time()
 		# step 1.5: create macros and replace where necessary
 
 		line_ind = 0
@@ -1322,12 +1322,12 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 			line_ind += 1
 
 
-		if TIMING_DEBUG: print("  macros time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  macros time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
 
-		start = time.clock()
+		start = util.get_time()
 
 		NUM_LINES = len(TEMP_LINES)
 		L_IND = 0
@@ -1357,12 +1357,12 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 			LINES.append(LOBJ)
 
 
-		if TIMING_DEBUG: print("  near-var lines time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  near-var lines time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
 
-		start = time.clock()
+		start = util.get_time()
 		# step 2: combine expressions into a single piece, and label external variables as such
 		lv_len = len(localvars)
 		for LINE_OBJ in LINES:
@@ -1455,13 +1455,13 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		EXTERNALVARS_SET = set(externalvars)
 
 
-		if TIMING_DEBUG: print("  external label time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  external label time: ", format(util.get_time()-start, " 10.5f"))
 
 
 		LOCAL_EXTERNAL = set()
 		
 
-		start = time.clock()
+		start = util.get_time()
 		# expression combine
 
 		ALL_USED_VARS = set()
@@ -1665,13 +1665,13 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 			LINE_OBJ.set_parsed(LINE)
 
 
-		if TIMING_DEBUG: print("  expression time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  expression time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
 
 
-		start = time.clock()
+		start = util.get_time()
 
 		# step 3: set EQU values, labels, and processor offsets
 
@@ -2330,7 +2330,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		#for s in sections:
 		#	print("SECTION NAME -", s["secname"], "  GROUP NAME -", s["group"])
 
-		if TIMING_DEBUG: print("  formatting time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  formatting time: ", format(util.get_time()-start, " 10.5f"))
 
 		#for s in sections:
 		#	print(s["secname"])
@@ -2342,7 +2342,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		###############################################################################################
 
 
-		start = time.clock()
+		start = util.get_time()
 		# step 4: expression evaluation for variables
 		
 
@@ -2370,7 +2370,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 				localvars[vind]["is_equ"] = False
 
 
-		if TIMING_DEBUG: print("  external check time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  external check time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
@@ -2378,7 +2378,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 
 		
-		start = time.clock()
+		start = util.get_time()
 		# evaluate expressions in variables
 
 		# MAKE THIS WAY FASTER PLEASE!!!!!!!!!!!
@@ -2577,7 +2577,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		#if FILE_NAME.lower() == "bgmove.asm":
 		#	print(localvars[var_dict["<TEMPVAR73>"]])
 
-		if TIMING_DEBUG: print("  expression parsing time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  expression parsing time: ", format(util.get_time()-start, " 10.5f"))
 			
 
 
@@ -2595,7 +2595,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 		
 
-		start = time.clock()
+		start = util.get_time()
 
 		# check to see if all expressions evaluated
 		for var in localvars[1:]:
@@ -2639,7 +2639,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 					localvars[vind]["name"] = "   "
 
 
-		if TIMING_DEBUG: print("  variable check time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  variable check time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
@@ -2650,7 +2650,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 
 
-		start = time.clock()
+		start = util.get_time()
 
 		# step 5: gather all "near" variables, and convert branch instructions to near labels
 		for ind in range(len(localvars)):
@@ -2704,11 +2704,11 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 
 
-		if TIMING_DEBUG: print("  near var time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  near var time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
-		start = time.clock()
+		start = util.get_time()
 
 		# convert variables in code into variable values
 		for sec_ind in range(1, len(sections)):
@@ -2945,10 +2945,10 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 				lnum += 1
 
-		if TIMING_DEBUG: print("  variable parsing time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  variable parsing time: ", format(util.get_time()-start, " 10.5f"))
 
 
-		start = time.clock()
+		start = util.get_time()
 
 		# set external variables to have correct tags, external labels have correct offset
 		for sec_ind in range(1, len(sections)):
@@ -3009,10 +3009,10 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 
 
-		if TIMING_DEBUG: print("  external tag time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  external tag time: ", format(util.get_time()-start, " 10.5f"))
 
 
-		start = time.clock()
+		start = util.get_time()
 
 		# parse branch nearlabel labels as such
 		for sec in sections[1:]:
@@ -3060,11 +3060,11 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 							'''
 				LINE_OBJ.set_parsed(LINE)
 
-		if TIMING_DEBUG: print("  branch near time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  branch near time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
-		start = time.clock()
+		start = util.get_time()
 		# convert data types into a parseable format
 		'''
 		sec_ind = 1
@@ -3284,7 +3284,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 
 
-		if TIMING_DEBUG: print("  format data types time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  format data types time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
@@ -3294,7 +3294,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		###############################################################################################
 
 
-		start = time.clock()
+		start = util.get_time()
 		# convert opcode mnemonics into opcodes, and values into correct hex 
 
 
@@ -3916,11 +3916,11 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 			sec_ind += 1
 
 
-		if TIMING_DEBUG: print("  opcode parsing time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  opcode parsing time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
-		start = time.clock()
+		start = util.get_time()
 		# convert all hard data and variables back into respective types
 
 		data_page = 0
@@ -4109,7 +4109,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 		#print(globalvars)
 
-		if TIMING_DEBUG: print("  variable conversion time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  variable conversion time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
@@ -4121,7 +4121,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		VARIABLES_TO_RELIFY = set()
 
 
-		start = time.clock()
+		start = util.get_time()
 
 		sections_to_indexes = {}
 
@@ -4429,7 +4429,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 			sec_ind += 1
 
 
-		if TIMING_DEBUG: print("  rel lines conversion time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  rel lines conversion time: ", format(util.get_time()-start, " 10.5f"))
 
 
 
@@ -4441,7 +4441,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 
 		def WRITE_LIS():
-			lstart = time.clock()
+			lstart = util.get_time()
 			# section testing
 			REAL_OFFS = 0
 			TEST_OFFS = 0
@@ -4506,7 +4506,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 						
 						P_TEST_OFFS = TEST_OFFS
 
-			if TIMING_DEBUG: print("  lis write time: ", format(time.clock()-lstart, " 10.5f"))
+			if TIMING_DEBUG: print("  lis write time: ", format(util.get_time()-lstart, " 10.5f"))
 
 
 		LIS_THREAD = threading.Thread(target=WRITE_LIS, args=())
@@ -4518,7 +4518,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		###############################################################################################
 
 
-		start = time.clock()
+		start = util.get_time()
 		# populate section code with code bytes
 		
 		#
@@ -4612,14 +4612,14 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 			print(s["secname"])
 		'''
 		
-		if TIMING_DEBUG: print("  rel section build time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  rel section build time: ", format(util.get_time()-start, " 10.5f"))
 
 
 		###############################################################################################
 
 		###############################################################################################
 
-		start = time.clock()
+		start = util.get_time()
 		# step 6: convert into REL file format
 
 		REL_DATA = []
@@ -5117,7 +5117,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		###############################################################################################
 
 		# output REL formatted assembled code
-		if TIMING_DEBUG: print("  rel build time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  rel build time: ", format(util.get_time()-start, " 10.5f"))
 
 
 		#set_symbols(SYMBOLS_FILE)
@@ -5126,7 +5126,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		
 
 
-		start = time.clock()
+		start = util.get_time()
 
 		with open(FILE_PATH + FILE_NAME.split(".")[0] + ".rel", "wb") as REL_FILE:
 			L = len(REL_DATA)
@@ -5144,7 +5144,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 
 		
-		if TIMING_DEBUG: print("  rel write time: ", format(time.clock()-start, " 10.5f"))
+		if TIMING_DEBUG: print("  rel write time: ", format(util.get_time()-start, " 10.5f"))
 
 		LIS_THREAD.join()
 
@@ -5173,7 +5173,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 		print("[INFO] Finished assembling " + FILE_NAME.split(".")[0] + ".rel", end="")
 
-		print(" after " + format(time.clock()-ASM_START, " 10.5f").lstrip() + "s.")
+		print(" after " + format(util.get_time()-ASM_START, " 10.5f").lstrip() + "s.")
 		#print(curr_hash.hexdigest())
 		#print(curr_hash)
 
