@@ -31,6 +31,31 @@ If there are any issues running the executables, I have also included the source
 Change these to run the relevant python scripts. 
 
 ---
+## Special Thanks
+- venen
+- xprism
+- dirtbag
+- SmorBjorn
+- SMKW Community
+- and YOU!
+
+Extra special thanks to:
+- R4M0N
+- dirtbag
+- xerofdv
+- furvent
+- ScouB
+- Brian Mazzarella
+- kandowontu
+- DaVince
+- starxon
+- firewaster
+- Olivier Cahagne
+- Laszlo
+
+I wouldn't have been able to work on projects like this without your support!
+
+---
 ## GNU License
 Project Y is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
