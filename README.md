@@ -7,7 +7,7 @@ Last updated: September 10, 2021
 
 ## Setup
 
-1. To begin, **[download this toolchain](https://github.com/MrL314/Project-Y/archive/refs/heads/main.zip)** and obtain the folder called `other\SFC\ソースデータ\ヨッシーアイランド\日本_Ver0` from the July 2020 gigaleak.
+1. To begin, **[download this toolchain](https://github.com/MrL314/Project-Y/archive/refs/heads/linux.zip)** and obtain the folder called `other\SFC\ソースデータ\ヨッシーアイランド\日本_Ver0` from the July 2020 gigaleak.
 	* You obtain these files at your own risk.
 2. Copy the CONTENTS of the `日本_Ver0` folder (not the folder itself) into the folder named `VER_0` included with this tool.
 3. Install `python3` through your package manager
