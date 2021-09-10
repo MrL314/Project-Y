@@ -1,7 +1,7 @@
 # Project-Y
 Toolchain to build Yoshi's Island (J) V1.0 from source code, by MrL314
 
-Last updated: September 8, 2021
+Last updated: September 10, 2021
 
 ---
 
@@ -21,6 +21,10 @@ Last updated: September 8, 2021
 2. The built ROM will appear in the `Output` folder. It will be called `VER_0.sfc`.
 
 ---
+## Running on Linux?
+To run on linux-based systems, see this branch [here](https://github.com/MrL314/Project-Y/tree/linux)
+
+---
 ## Running raw python files
 
 If there are any issues running the executables, I have also included the source python files. In each bat file, wherever an executable is called, change to the relevant call to run the python script instead. Executables are called in `setup.bat` (with `createSource` being called), and in `Tools\createROM`, where you may change the relevant calls for the lines:
@@ -29,6 +33,7 @@ If there are any issues running the executables, I have also included the source
 - `set h2b=...`
 
 Change these to run the relevant python scripts. 
+
 
 ---
 ## Special Thanks
@@ -48,7 +53,7 @@ Extra special thanks to:
 - Brian Mazzarella
 - kandowontu
 - DaVince
-- starxon
+- starxxon
 - firewaster
 - Olivier Cahagne
 - Laszlo
