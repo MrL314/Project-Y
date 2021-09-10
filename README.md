@@ -1,7 +1,7 @@
 # Project-Y
-Toolchain to build Yoshi's Island (J) V1.0 from source code, by MrL314
-
-Last updated: September 8, 2021
+## For Linux/Mac
+### Toolchain to build Yoshi's Island (J) V1.0 from source code, by MrL314
+Last updated: September 10, 2021
 
 ---
 
@@ -10,25 +10,17 @@ Last updated: September 8, 2021
 1. To begin, **[download this toolchain](https://github.com/MrL314/Project-Y/archive/refs/heads/main.zip)** and obtain the folder called `other\SFC\ソースデータ\ヨッシーアイランド\日本_Ver0` from the July 2020 gigaleak.
 	* You obtain these files at your own risk.
 2. Copy the CONTENTS of the `日本_Ver0` folder (not the folder itself) into the folder named `VER_0` included with this tool.
-
-3. Run `setup.bat`, and ensure there are no errors.
+3. Install `python3` through your package manager
+3. Run `python3 setup.py` in a terminal, and ensure there are no errors.
 
 ---
 ## Building the Yoshi's Island JPN V1.0 ROM
 
-1. After completing the **Setup** step, run `build.bat`.
+1. After completing the **Setup** step, run `python3 build.py` in a terminal.
+
+2. Choose option `1) Compile ROM (The output ROM will be in Output/)`
 
 2. The built ROM will appear in the `Output` folder. It will be called `VER_0.sfc`.
-
----
-## Running raw python files
-
-If there are any issues running the executables, I have also included the source python files. In each bat file, wherever an executable is called, change to the relevant call to run the python script instead. Executables are called in `setup.bat` (with `createSource` being called), and in `Tools\createROM`, where you may change the relevant calls for the lines:
-- `set asm=...`
-- `set lnk=...`
-- `set h2b=...`
-
-Change these to run the relevant python scripts. 
 
 ---
 ## Special Thanks
