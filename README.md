@@ -40,7 +40,7 @@ Extra special thanks to:
 - Brian Mazzarella
 - kandowontu
 - DaVince
-- starxon
+- starxxon
 - firewaster
 - Olivier Cahagne
 - Laszlo
