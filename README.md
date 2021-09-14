@@ -23,6 +23,10 @@ Last updated: September 10, 2021
 2. The built ROM will appear in the `Output` folder. It will be called `VER_0.sfc`.
 
 ---
+## Discord
+Join our discord pertaining to Yoshi's Island source modding here: https://discord.gg/F46w4GAKr2
+
+---
 ## Special Thanks
 - venen
 - xprism
