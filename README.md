@@ -36,6 +36,10 @@ Change these to run the relevant python scripts.
 
 
 ---
+## Discord
+Join our discord pertaining to Yoshi's Island source modding here: https://discord.gg/F46w4GAKr2
+
+---
 ## Special Thanks
 - venen
 - xprism
