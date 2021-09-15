@@ -42,6 +42,7 @@ Join our discord pertaining to Yoshi's Island source modding here: https://disco
 ---
 ## Special Thanks
 - venen
+- atomic
 - xprism
 - dirtbag
 - SmorBjorn
