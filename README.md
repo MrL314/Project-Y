@@ -21,8 +21,8 @@ Last updated: September 10, 2021
 2. The built ROM will appear in the `Output` folder. It will be called `VER_0.sfc`.
 
 ---
-## Running on Linux?
-To run on linux-based systems, see this branch [here](https://github.com/MrL314/Project-Y/tree/linux)
+## Running on Mac/Linux?
+To run on Mac or linux-based systems, see this branch [here](https://github.com/MrL314/Project-Y/tree/linux)
 
 ---
 ## Running raw python files
