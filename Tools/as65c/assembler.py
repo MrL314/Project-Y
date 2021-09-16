@@ -1760,6 +1760,22 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 						offs = -1
 						if cind+1 < len(LINE):
 							offs = LINE[cind+1]
+
+						if offs["type"] == util.DATA_TYPES.EXPRESSION:
+							# temporary variable to be evaluated later. its easier this way
+							varname = TEMP_LEFT + "TEMPVAR" + str(tempvar) + TEMP_RIGHT
+							localvars.append({"name": varname, "value": "( " + offs["expression"] + " )", "offset": None, "section": getsecind(sec_ind + 1), "type": util.DATA_TYPES.EXPRESSION, "expression": offs["expression"], "expression_vars": offs["expression_vars"], "is_temp": True})
+							if not varname in var_uses:
+								var_uses[varname] = []
+							var_uses[varname].append(LINE_OBJ.get_line_num())
+							#ALL_USED_VARS.add(varname)
+							#print("TYPE_X: " + varname)
+							offs = {"type": util.DATA_TYPES.VARIABLE, "varname": varname, "label": varname, "size": 0, "uses_near": offs["uses_near"]}
+
+							tempvar += 1
+
+						cind += 1
+
 						sections.append({"secname": section, "group": section, "code_data": [], "type": util.DATA_TYPES.ORG, "offset": offs, "size": 0})
 
 					if chunk["type"] == util.DATA_TYPES.SECTION:
@@ -1805,6 +1821,7 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 					#ALL_USED_VARS.add(varname)
 					#print("TYPE_X: " + varname)
 					LINE[cind] = {"type": util.DATA_TYPES.VARIABLE, "varname": varname, "label": varname, "size": 0, "uses_near": chunk["uses_near"]}
+
 
 					
 					if LINE[cind-1]["type"] != util.DATA_TYPES.TYPE and LINE[cind-1]["type"] != util.DATA_TYPES.EQU:
@@ -2175,8 +2192,9 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 									chunk = LINE[cind]
 
 
+
 								if cind > 0:
-									if LINE[cind-1]["type"] == util.DATA_TYPES.DATA_PAGE or LINE[cind-1]["type"] == util.DATA_TYPES.DATA_BANK:
+									if LINE[cind-1]["type"] == util.DATA_TYPES.DATA_PAGE or LINE[cind-1]["type"] == util.DATA_TYPES.DATA_BANK or LINE[cind-1]["type"] == util.DATA_TYPES.ORG:
 										LINE[cind]["size"] = 0
 										chunk = LINE[cind]
 										#print("sizenone VAR:", LINE)

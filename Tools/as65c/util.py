@@ -363,7 +363,7 @@ MACRO_LOCAL_SYMBOLS = {"local", "LOCAL"}
 
 # symbols that arent compiled but I don't know what to do with them yet
 #OTHER_SYMBOLS = ("native", "extend", "list", "nolist", "rel", "sall", "xall", "NATIVE", "EXTEND", "LIST", "NOLIST", "REL", "SALL", "XALL")
-OTHER_SYMBOLS = {"native", "extend", "list", "nolist", "rel", "sall", "xall", "NATIVE", "EXTEND", "LIST", "NOLIST", "REL", "SALL", "XALL"}
+OTHER_SYMBOLS = {"native", "extend", "list", "nolist", "nlist", "rel", "sall", "xall", "NATIVE", "EXTEND", "LIST", "NOLIST", "NLIST", "REL", "SALL", "XALL"}
 
 
 # list of symbols used in parsing the data
