@@ -239,7 +239,7 @@ if __name__ == "__main__":
     #parser.add_argument("-i", dest="WARG", action="store_true", help="unknown as of this time")
 
 
-    FILL_BYTE = "00"
+    FILL_BYTE = None
 
     HEX_FILES = []
 
@@ -265,6 +265,8 @@ if __name__ == "__main__":
 
     if "fill_char" in ARGS:
         FILL_BYTE = ARGS["fill_char"]
+
+    if FILL_BYTE == None: FILL_BYTE = "00"
 
     FILL_VAL = int(FILL_BYTE, 16)
 
