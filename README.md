@@ -1,7 +1,7 @@
 # Project-Y
 ## For Linux/Mac
 ### Toolchain to build Yoshi's Island (J) V1.0 from source code, by MrL314
-Last updated: September 10, 2021
+Last updated: September 17, 2021
 
 ---
 
