@@ -370,6 +370,9 @@ class Line(object):
 				elif L0_LOWER == "endif":
 					parse_stack.append({"type": util.DATA_TYPES.CONDITIONAL_ENDIF})
 					ind += 1
+				elif L0_LOWER == "else":
+					parse_stack.append({"type": util.DATA_TYPES.CONDITIONAL_ELSE})
+					ind += 1
 
 			elif L0_LOWER in util.INCLUDE_SYMBOLS:
 				# is an include statement, so rest of line is a file
