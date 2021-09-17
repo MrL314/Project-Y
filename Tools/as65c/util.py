@@ -343,7 +343,7 @@ DATA_SYMBOLS = set(flatten_list((LONG_SYMBOLS, WORD_SYMBOLS, BYTE_SYMBOLS, HEX_L
 
 # symbols that affect compilation flow
 #CONDITIONAL_SYMBOLS = ("if", "endif", "IF", "ENDIF")
-CONDITIONAL_SYMBOLS = {"if", "endif", "IF", "ENDIF"}
+CONDITIONAL_SYMBOLS = {"if", "endif", "else", "IF", "ENDIF", "ELSE"}
 
 # symbols that signal storage directive
 #STORAGE_DIRECTIVE_SYMBOLS = ("ds", "DS")

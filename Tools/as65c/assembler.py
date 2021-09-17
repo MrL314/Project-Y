@@ -620,6 +620,11 @@ class ASM_FILE(object):
 				elif LINE[0]["type"] == util.DATA_TYPES.CONDITIONAL_ENDIF:
 					IF_LAYER -= 1
 
+				elif LINE[0]["type"] == util.DATA_TYPES.CONDITIONAL_ELSE:
+					if IF_LAYER == 0: raise LineException(L_OBJ.get_line_num(), "Cannot parse ELSE without IF statement.\n" + L_OBJ.get_raw(), L_OBJ.get_file_name())
+
+					if_condition = not if_condition 
+
 				else:
 
 					if IF_LAYER == 0 or if_condition:
