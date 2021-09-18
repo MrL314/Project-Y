@@ -65,6 +65,9 @@ CONDITIONAL_ENDIF = "endif"
 global CONDITIONAL_ELSE
 CONDITIONAL_ELSE = "else"
 
+global CONDITION
+CONDITION = "cond"
+
 
 global REGISTER
 REGISTER = "reg"

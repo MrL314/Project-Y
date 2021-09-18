@@ -585,6 +585,9 @@ class ASM_FILE(object):
 
 		line_number = 1
 
+
+		IF_CONDS = [True]
+
 		for line in ASM_LINES:
 
 			L_OBJ = LineObject.Line(line, file=filename, line_number=line_number, include_level=include_level)
@@ -596,34 +599,57 @@ class ASM_FILE(object):
 
 			LINE = L_OBJ.get_parsed()
 
+			if_condition = IF_CONDS[-1]
+
 			if LINE != []:
 
 				# handle if conditions
 				if LINE[0]["type"] == util.DATA_TYPES.CONDITIONAL_IF:
-					condition = LINE[0]["condition"]
-
-					try:
-						if_condition = int(condition)
-					except:
-
-						if condition in self._ext_vars:
-							if_condition = self._ext_vars[condition]
-						else:
-							#if_condition = False
-							raise LineException(L_OBJ.get_line_num(), str(condition) + " not found.\n" + L_OBJ.get_raw(), L_OBJ.get_file_name())
-
-					if if_condition == 1: if_condition = True
-					if if_condition == 0: if_condition = False
-					
 					IF_LAYER += 1
 
+					condition = LINE[0]["condition"]
+
+					cond_str = ""
+					first = True
+					for s in condition.split(" "):
+						if not first: cond_str += " "
+						first = False
+
+						if s in util.ARITHMETIC_SYMBOLS:
+							cond_str += s
+						else:
+							is_int = True
+							try:
+								int(s)
+							except:
+								is_int = False
+
+							if is_int: cond_str += s
+							else:
+								# is a variable. Check if external var
+								if s in self._ext_vars:
+									cond_str += str(self._ext_vars[s])
+								else:
+									raise LineException(L_OBJ.get_line_num(), str(s) + " not found in assembler variables.\n" + L_OBJ.get_raw(), L_OBJ.get_file_name())
+
+
+					if_cond = util.evaluateExpression(cond_str)
+
+					if if_cond != 0: if_cond = True
+					if if_cond == 0: if_cond = False
+					
+					IF_CONDS.append(if_cond)
+
+
 				elif LINE[0]["type"] == util.DATA_TYPES.CONDITIONAL_ENDIF:
+					IF_CONDS.pop()
 					IF_LAYER -= 1
 
 				elif LINE[0]["type"] == util.DATA_TYPES.CONDITIONAL_ELSE:
 					if IF_LAYER == 0: raise LineException(L_OBJ.get_line_num(), "Cannot parse ELSE without IF statement.\n" + L_OBJ.get_raw(), L_OBJ.get_file_name())
 
-					if_condition = not if_condition 
+					if_condition = not IF_CONDS.pop()
+					IF_CONDS.append(if_condition)
 
 				else:
 
