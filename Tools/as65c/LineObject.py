@@ -365,7 +365,44 @@ class Line(object):
 				# is a conditional statement that affets assembler process
 
 				if L0_LOWER == "if":
-					parse_stack.append({"type": util.DATA_TYPES.CONDITIONAL_IF, "condition": LINE[1]})
+					
+
+					sub_parsed = self.parse_line(pre_parsed=LINE[ind+1:], is_complete_line=False)
+
+
+					eval_str = ""
+					first = True
+					for p in sub_parsed:
+
+						if p["type"] == util.DATA_TYPES.VALUE:
+							if not first: eval_str += " "
+							first = False
+
+							eval_str += str(p["value"])
+						elif p["type"] == util.DATA_TYPES.OPERATOR:
+							if not first: eval_str += " "
+							first = False
+
+							eval_str += str(p["operator"])
+
+						elif p["type"] == util.DATA_TYPES.VARIABLE:
+							if not first: eval_str += " "
+							first = False
+
+							eval_str += str(p["varname"])
+
+						else:
+							raise LineException(self.get_line_num(), "Unidentified parameter in IF statement:\n" + self.get_raw(), self.get_file_name())
+
+
+					#condition = {"type": util.DATA_TYPES.CONDITION, "eval_str": eval_str}
+
+
+					parse_stack.append({"type": util.DATA_TYPES.CONDITIONAL_IF, "condition": eval_str})
+
+
+
+
 					ind += 2
 				elif L0_LOWER == "endif":
 					parse_stack.append({"type": util.DATA_TYPES.CONDITIONAL_ENDIF})
