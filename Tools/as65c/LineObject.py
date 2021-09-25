@@ -351,7 +351,12 @@ class Line(object):
 		if is_complete_line:
 			# if not a reserved word at beginning of line, then it is a label
 
-			L0_LOWER = LINE[0].lower()
+			item = LINE[0]
+
+			L0_LOWER = item
+
+			if item == item.lower() or item == item.upper():
+				L0_LOWER = item.lower()
 
 			if not L0_LOWER in util.RESERVED_FLAT:
 
