@@ -2176,6 +2176,8 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 						elif chunk["type"] == util.DATA_TYPES.PFLAG:
 							# processor flag
 
+							basic_flag = True
+
 							if chunk["flag"].lower() == "mem8":
 								#print("mem8")
 								mem = 8
@@ -2188,8 +2190,24 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 							elif chunk["flag"].lower() == "idx16":
 								#print("idx16")
 								idx = 16
+							else:
+								basic_flag = False
 
-							processor_flags.append({"type": chunk["flag"].lower(), "offset": section_offsets[section], "section": getsecind(sec_ind)})
+							if basic_flag:
+								processor_flags.append({"type": chunk["flag"].lower(), "offset": section_offsets[section], "section": getsecind(sec_ind)})
+							
+							else:
+
+								
+								if chunk["flag"].lower() == "emulation":
+									mem = 8
+									idx = 8
+									processor_flags.append({"type": "mem8", "offset": section_offsets[section], "section": getsecind(sec_ind)})
+									processor_flags.append({"type": "idx8", "offset": section_offsets[section], "section": getsecind(sec_ind)})
+
+								if chunk["flag"].lower() == "native":
+									# don't do anything really...
+									pass
 
 						elif chunk["type"] == util.DATA_TYPES.VALUE:
 							if is_op:
