@@ -954,10 +954,21 @@ def evaluateExpression(EXP):
 
 
 
+def is_digit(v):
+	if v == "0": return True
+	if v == "1": return True
+	if v == "2": return True
+	if v == "3": return True
+	if v == "4": return True
+	if v == "5": return True
+	if v == "6": return True
+	if v == "7": return True
+	if v == "8": return True
+	if v == "9": return True
+	return False
 
 
-
-def isValue(v):
+def isValue(v, WARN=False):
 	"""Returns true if the input is a type of value literal"""
 	try:
 		# if this works, the value is a decimal number
@@ -970,10 +981,18 @@ def isValue(v):
 		if v[-1].lower() == "b":
 			# if this works, the value is a binary number
 			int("0b" + v[:-1], 2)
+
+			if not is_digit(v[0]):
+				if WARN: print("[DEBUG] REFUSING TO PARSE", str(v), "AS A BINARY VALUE. DEFAULTING TO A VARIABLE.")
+				return False
 			return True
 		elif v[-1].lower() == "h":
 			# if this works, the value is a hex number
 			int("0x" + v[:-1], 16)
+
+			if not is_digit(v[0]):
+				if WARN: print("[DEBUG] REFUSING TO PARSE", str(v), "AS A HEX VALUE. DEFAULTING TO A VARIABLE.")
+				return False
 			return True
 		else:
 			# ascii char check
