@@ -1645,7 +1645,8 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 								#external variable used in an expression, not at the begining. I will *NOT* allow this
 								#raise LineException(LINE_OBJ.get_line_num(), "External labels with offset MUST be used at front of calculation.\n" + LINE_OBJ.get_raw(), LINE_OBJ.get_file_name())
 								if ind != 0:
-									raise LineException(LINE_OBJ.get_line_num(), "External labels with offset MUST be used at front of calculation.\n" + LINE_OBJ.get_raw(), LINE_OBJ.get_file_name())
+									#raise LineException(LINE_OBJ.get_line_num(), "External labels with offset MUST be used at front of calculation.\n" + LINE_OBJ.get_raw(), LINE_OBJ.get_file_name())
+									print("[WARNING] External labels with offset should be used at front of calculation. At line", LINE_OBJ.get_line_num(), "\n", LINE_OBJ.get_raw())
 
 
 
@@ -2778,6 +2779,12 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		start = util.get_time()
 
 		# convert variables in code into variable values
+		
+		FILE_TAG = "~FILE_" + str(FILE_NAME) + "~"
+		FILE_TAG_LEN = len(FILE_TAG)
+
+		NEW_IND = len(localvars)
+
 		for sec_ind in range(1, len(sections)):
 
 			sec = sections[sec_ind]
@@ -2896,7 +2903,33 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 
 											elif v["type"] == "label":
 												if v["name"] in LOCAL_EXTERNAL:
-													LINE[ind] = {"type": util.DATA_TYPES.EXTERNAL, "varname": chunk["varname"], "label": chunk["varname"]}
+													v_name = v["name"]
+
+													
+													LOCEXT_TAG = FILE_TAG
+
+													#if len(v_name) >= FILE_TAG_LEN and v_name[:FILE_TAG_LEN] == FILE_TAG:
+													#	print("[ WARNING!!!! ] LOCEXT IS ABOUT TO MESS UP HERE! at line", LINE_OBJ.get_line_num(), ":\n", LINE_OBJ.get_raw(), "\nwith variable: ", v_name)
+
+
+													NEW_NAME = LOCEXT_TAG + chunk["varname"]
+
+													LINE[ind] = {"type": util.DATA_TYPES.EXTERNAL, "varname": NEW_NAME, "label": NEW_NAME}
+
+													new_v = {}
+													for key in v:
+														new_v[key] = v[key]
+
+													new_v["name"] = NEW_NAME
+
+													LOCAL_EXTERNAL.add(NEW_NAME)
+													localvars.append(new_v)
+													var_dict[NEW_NAME] = NEW_IND
+													NEW_IND += 1
+
+
+
+
 												else:
 													LINE[ind] = {"type": util.DATA_TYPES.VARIABLE, "varname": v["name"], "label": v["name"], "section": v["section"], "offset": v["offset"]}
 									
@@ -4219,8 +4252,10 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 		for x in LOCAL_EXTERNAL:
 			if localvars[var_dict[x]]["type"] == "label":
 				#EXTERNALVARS_SET.add(x)
-				globalvars.append(x)
-				externalvars.append(x)
+
+				if len(x) >= FILE_TAG_LEN and x[:FILE_TAG_LEN] == FILE_TAG:
+					globalvars.append(x)
+					externalvars.append(x)
 
 
 

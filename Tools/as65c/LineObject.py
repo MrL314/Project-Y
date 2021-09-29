@@ -477,9 +477,9 @@ class Line(object):
 			if not (item_lower in util.RESERVED_FLAT):
 
 
-				if util.isValue(item_lower):
+				if util.isValue(item):
 					# item is a raw value, so turn it into one
-					parse_stack.append({"type": util.DATA_TYPES.VALUE, "value": util.parseValue(item_lower)})
+					parse_stack.append({"type": util.DATA_TYPES.VALUE, "value": util.parseValue(item)})
 
 				else:
 					# item is a variable
@@ -738,12 +738,16 @@ class Line(object):
 
 							# is only good data if it is a hex literal. If cannot be interpreted this way, bad data.
 							try:
-								int(LINE[x], 16)
+								L = LINE[x]
+								if LINE[x][-1].lower() == 'h':
+									L = L[:-1]
+								int(L, 16)
 							except ValueError:
 								bad_data = True
-							
+
+
 							if bad_data:
-								if util.isValue(LINE[x]):
+								if util.isValue(LINE[x], WARN=False):
 									bad_data = False
 
 							if not bad_data:
@@ -753,12 +757,12 @@ class Line(object):
 
 
 							else:
-								raise LineException(self.get_line_num(), "Invalid HEX literal: " + str(LINE[x]), self.get_file_name())
+								raise LineException(self.get_line_num(), "Invalid HEX literal: " + str(LINE[x]) + "\nIf using a variable, use BYTE list instead.", self.get_file_name())
 
 							# if hex literal, convert into byte list format
 							if LINE_LEN > 2 and int(LINE[x], 16) > 255:
-								print("[DEBUG]: HEX LINE ITEM LARGER THAN BYTE ", LINE)
-							LINE[x] = LINE[x] + "h"
+								print("[DEBUG]: HEX LINE ITEM LARGER THAN BYTE \n", LINE)
+							LINE[x] = "0" + LINE[x] + "h"
 
 					# for now, I have not seen any format that uses a different 
 					# case other than hex as byte sized. Update this if that
@@ -776,13 +780,18 @@ class Line(object):
 
 							# is only good data if it is a hex literal. If cannot be interpreted this way, bad data.
 							try:
-								int(LINE[x], 2)
+								L = LINE[x]
+								if LINE[x][-1].lower() == 'b':
+									L = L[:-1]
+								int(L, 2)
 							except ValueError:
 								bad_data = True
 							
 							if bad_data:
-								if util.isValue(LINE[x]):
+								if util.isValue(LINE[x], WARN=False):
 									bad_data = False
+								#elif util.isValue("0" + LINE[x]): # dont need this
+								#	bad_data = False
 
 							if not bad_data:
 								# just convert the value into one without the designator to make it easier.
@@ -791,12 +800,12 @@ class Line(object):
 
 
 							else:
-								raise LineException(self.get_line_num(), "Invalid BIN literal: " + str(LINE[x]), self.get_file_name())
+								raise LineException(self.get_line_num(), "Invalid BIN literal: " + str(LINE[x]) + "\nIf using a variable, use BYTE list instead.", self.get_file_name())
 
 							# if hex literal, convert into byte list format
 							if LINE_LEN > 8 and int(LINE[x], 2) > 255:
-								print("[DEBUG]: BIN LINE ITEM LARGER THAN BYTE ", LINE)
-							LINE[x] = LINE[x] + "b"
+								print("[DEBUG]: BIN LINE ITEM LARGER THAN BYTE \n", LINE)
+							LINE[x] = "0" + LINE[x] + "b"
 
 					# for now, I have not seen any format that uses a different 
 					# case other than bin as byte sized. Update this if that
