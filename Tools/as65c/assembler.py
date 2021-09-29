@@ -1645,8 +1645,8 @@ def assembleFile(filename, ext_vars={}, force_assemble=False, check_hash=False, 
 								#external variable used in an expression, not at the begining. I will *NOT* allow this
 								#raise LineException(LINE_OBJ.get_line_num(), "External labels with offset MUST be used at front of calculation.\n" + LINE_OBJ.get_raw(), LINE_OBJ.get_file_name())
 								if ind != 0:
-									#raise LineException(LINE_OBJ.get_line_num(), "External labels with offset MUST be used at front of calculation.\n" + LINE_OBJ.get_raw(), LINE_OBJ.get_file_name())
-									print("[WARNING] External labels with offset should be used at front of calculation. At line", LINE_OBJ.get_line_num(), "\n", LINE_OBJ.get_raw())
+									raise LineException(LINE_OBJ.get_line_num(), "External labels with offset MUST be used at front of calculation.\n" + LINE_OBJ.get_raw(), LINE_OBJ.get_file_name())
+									#print("[WARNING] External labels with offset should be used at front of calculation. At line", LINE_OBJ.get_line_num(), "\n", LINE_OBJ.get_raw())
 
 
 
